@@ -3,28 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mohammed Abzan | 3D Portfolio</title>
+  <title>Mohammed Abzan | Executive Portfolio</title>
+  
+  <!-- Fonts & Libraries -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
   <style>
     :root {
-      --bg-color: #030308;
-      --card-bg: rgba(10, 15, 30, 0.65);
-      --accent-purple: #9d4edd;
-      --accent-blue: #00f0ff;
-      --text-main: #e2e8f0;
-      --text-muted: #94a3b8;
+      --bg-dark: #020208;
+      --accent-cyan: #00f0ff;
+      --accent-purple: #7000ff;
+      --text-main: #f1f5f9;
+      --text-dim: #94a3b8;
+      --glass-bg: rgba(6, 11, 25, 0.55);
+      --glass-border: rgba(0, 240, 255, 0.18);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
 
     body {
-      background-color: var(--bg-color);
+      background-color: var(--bg-dark);
       color: var(--text-main);
-      font-family: 'Segoe UI', system-ui, sans-serif;
       overflow-x: hidden;
       line-height: 1.6;
     }
 
-    #webgl-canvas {
+    /* 3D Canvas Fixed Background */
+    #canvas-container {
       position: fixed;
       top: 0;
       left: 0;
@@ -34,123 +50,226 @@
       pointer-events: none;
     }
 
+    /* Main Container */
     .container {
-      max-width: 950px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 2rem 1.5rem;
+      padding: 0 2rem;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
-    header {
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      padding: 6rem 1rem 4rem 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
     }
 
     h1 {
-      font-size: 3rem;
-      letter-spacing: 3px;
-      background: linear-gradient(45deg, #ffffff, var(--accent-blue), var(--accent-purple));
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #ffffff 0%, #a5f3fc 50%, var(--accent-purple) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 0.8rem;
-    }
-
-    .subtitle {
-      font-size: 1.15rem;
-      color: var(--accent-blue);
-      font-weight: 500;
       margin-bottom: 1.2rem;
     }
 
-    .contact-info {
+    .subtitle {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--text-dim);
+      max-width: 700px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .contact-bar {
       display: flex;
-      justify-content: center;
       gap: 1.5rem;
       flex-wrap: wrap;
-      color: var(--text-muted);
+      justify-content: center;
       font-size: 0.95rem;
+      color: var(--text-main);
     }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid rgba(0, 240, 255, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 2.5rem;
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Content Sections */
+    section {
+      padding: 6rem 0;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
       margin-bottom: 2.5rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .card:hover {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
-    }
-
-    h2 {
-      font-size: 1.6rem;
-      color: var(--accent-blue);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 0.6rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .job-title { font-size: 1.25rem; font-weight: bold; color: #fff; }
-    .job-meta { font-size: 0.95rem; color: var(--accent-purple); margin-bottom: 0.8rem; }
-    ul { list-style-type: square; padding-left: 1.2rem; }
-    li { margin-bottom: 0.6rem; color: var(--text-muted); }
-
-    .tags { display: flex; flex-wrap: wrap; gap: 0.7rem; }
-    .tag {
-      background: rgba(0, 240, 255, 0.1);
-      border: 1px solid var(--accent-blue);
       color: #fff;
-      padding: 0.4rem 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent-cyan), transparent);
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-radius: 20px;
-      font-size: 0.85rem;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .glass-card:hover {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .job-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .job-meta {
+      color: var(--accent-cyan);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+    }
+
+    /* Skill Tags */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .skill-chip {
+      background: rgba(112, 0, 255, 0.15);
+      border: 1px solid rgba(112, 0, 255, 0.4);
+      color: #e2e8f0;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .skill-chip:hover {
+      background: var(--accent-cyan);
+      color: #000;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px var(--accent-cyan);
     }
   </style>
-
-  <!-- Load Three.js 3D Engine Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-  <canvas id="webgl-canvas"></canvas>
+  <div id="canvas-container"></div>
 
   <div class="container">
-    <header>
+    <!-- HERO SECTION -->
+    <div class="hero">
+      <span class="badge">Aviation & Logistics Professional</span>
       <h1>MOHAMMED ABZAN</h1>
-      <p class="subtitle">Administration & Customer Service Professional | Cargo Operations | Sustainability</p>
-      <div class="contact-info">
-        <span>📍 Dubai, UAE</span>
-        <span>📧 mohdabzan2003@gmail.com</span>
-        <span>📞 +971 56 575 4523</span>
-        <span>🚗 UAE Driving Licence</span>
+      <p class="subtitle">Specialized in Cargo Operations, Compliance, and Sustainability Management at Dubai International Airport (Emirates Group)[cite: 1].</p>
+      <div class="contact-bar">
+        <div class="contact-item">📍 Dubai, UAE</div>
+        <div class="contact-item">📧 mohdabzan2003@gmail.com</div>
+        <div class="contact-item">📞 +971 56 575 4523</div>
+        <div class="contact-item">🚗 UAE Driving Licence</div>
       </div>
-    </header>
-
-    <div class="card">
-      <h2>Professional Summary</h2>
-      <p style="color: var(--text-muted);">
-        Administration and customer service professional with over two years of experience at dnata (Emirates Group), Dubai International Airport[cite: 1]. Specialized in cargo operations, document control, sustainability coordination, and customer support[cite: 1]. Experienced in maintaining compliance-grade records and cross-departmental operations in fast-paced environments[cite: 1].
-      </p>
     </div>
 
-    <div class="card">
-      <h2>Work Experience</h2>
-      <div style="margin-bottom: 2rem;">
-        <div class="job-title">Administrative Assistant</div>
-        <div class="job-meta">dnata (Emirates Group) — Dubai International Airport | 2025 – Present</div>
+    <!-- EXECUTIVE SUMMARY -->
+    <section>
+      <div class="section-title">01. Overview</div>
+      <div class="glass-card">
+        <p style="color: var(--text-dim); font-size: 1.1rem; line-height: 1.8;">
+          Administration and customer service professional with over two years of experience at dnata (Emirates Group), Dubai International Airport[cite: 1]. Proven expertise maintaining compliance-grade records, resolving high-volume airline and freight enquiries, and coordinating cross-departmental operations in fast-paced aviation hubs[cite: 1]. Backed by a B.Com in Business Management and certified AI Prompt Engineering credentials from the Dubai Future Foundation[cite: 1].
+        </p>
+      </div>
+    </section>
+
+    <!-- WORK EXPERIENCE -->
+    <section>
+      <div class="section-title">02. Career History</div>
+      
+      <div class="glass-card">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Administrative Assistant</div>
+            <div class="job-meta">dnata (Emirates Group) — Dubai International Airport</div>
+          </div>
+          <div style="color: var(--text-dim); font-size: 0.9rem;">2025 – Present</div>
+        </div>
         <ul>
           <li>Manage document archiving for cargo and operational records, keeping filing systems audit-ready[cite: 1].</li>
           <li>Support environmental and sustainability initiatives including record-keeping for compliance reporting[cite: 1].</li>
@@ -158,143 +277,226 @@
           <li>Provide daily administrative support, scheduling, and operational coordination[cite: 1].</li>
         </ul>
       </div>
-      <div>
-        <div class="job-title">Cargo & Customer Service Agent</div>
-        <div class="job-meta">dnata (Emirates Group) — Dubai International Airport | 2024 – 2025</div>
+
+      <div class="glass-card">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Cargo & Customer Service Agent</div>
+            <div class="job-meta">dnata (Emirates Group) — Dubai International Airport</div>
+          </div>
+          <div style="color: var(--text-dim); font-size: 0.9rem;">2024 – 2025</div>
+        </div>
         <ul>
           <li>Managed import and export cargo enquiries end-to-end for international airlines and clients[cite: 1].</li>
           <li>Maintained compliance records for AWB, Dangerous Goods, Pharma, and AVI/HUM shipments following IATA & GCAA standards[cite: 1].</li>
-          <li>Prepared billing reports, invoices, and inventory trackers[cite: 1].</li>
-          <li>Guided clients on the Calogi platform and handled ULD build-up/breakdown operations safely[cite: 1].</li>
+          <li>Prepared billing reports, invoices, and inventory trackers for management review[cite: 1].</li>
+          <li>Guided customers through the Calogi digital platform and managed ULD build-up/breakdown operations safely[cite: 1].</li>
         </ul>
       </div>
-    </div>
+    </section>
 
-    <div class="card">
-      <h2>Skills & Software</h2>
-      <div class="tags">
-        <span class="tag">Cargo Operations</span>
-        <span class="tag">Document Archiving & Control</span>
-        <span class="tag">Customer Service</span>
-        <span class="tag">Sustainability Coordination</span>
-        <span class="tag">Power BI</span>
-        <span class="tag">AI Prompt Engineering</span>
-        <span class="tag">Microsoft 365</span>
-        <span class="tag">One Cargo</span>
-        <span class="tag">Calogi</span>
+    <!-- SKILLS & SOFTWARE -->
+    <section>
+      <div class="section-title">03. Core Capabilities</div>
+      <div class="glass-card">
+        <div class="skills-grid">
+          <div class="skill-chip">Cargo Operations</div>
+          <div class="skill-chip">Document Archiving & Control</div>
+          <div class="skill-chip">Customer Service</div>
+          <div class="skill-chip">Sustainability Coordination</div>
+          <div class="skill-chip">Power BI</div>
+          <div class="skill-chip">AI Prompt Engineering</div>
+          <div class="skill-chip">Microsoft 365</div>
+          <div class="skill-chip">One Cargo</div>
+          <div class="skill-chip">Calogi</div>
+          <div class="skill-chip">Data Entry & Reporting</div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="card">
-      <h2>Certifications & Education</h2>
-      <ul>
-        <li><strong>One Million Prompters AI Prompt Engineering</strong> – Dubai Future Foundation / DCAI[cite: 1]</li>
-        <li><strong>Emirates Aviation Dangerous Goods Handling</strong> – dnata (Emirates Group)[cite: 1]</li>
-        <li><strong>Cargo Product Knowledge & Documentation</strong> – dnata (Emirates Group)[cite: 1]</li>
-        <li><strong>Fundamentals of Cargo Operations (Export)</strong> – dnata (Emirates Group)[cite: 1]</li>
-        <li><strong>Bachelor of Commerce (B.Com) in Business Management</strong> – Mangalore University (2021–2024)[cite: 1]</li>
-      </ul>
-    </div>
+    <!-- CERTIFICATIONS & EDUCATION -->
+    <section>
+      <div class="section-title">04. Education & Credentials</div>
+      <div class="glass-card">
+        <ul>
+          <li><strong>One Million Prompters AI Prompt Engineering</strong> – Dubai Future Foundation / DCAI[cite: 1]</li>
+          <li><strong>Emirates Aviation Dangerous Goods Handling</strong> – dnata (Emirates Group)[cite: 1]</li>
+          <li><strong>Cargo Product Knowledge & Documentation</strong> – dnata (Emirates Group)[cite: 1]</li>
+          <li><strong>Fundamentals of Cargo Operations (Export)</strong> – dnata (Emirates Group)[cite: 1]</li>
+          <li><strong>Bachelor of Commerce (B.Com) in Business Management</strong> – Mangalore University (2021–2024)[cite: 1]</li>
+        </ul>
+      </div>
+    </section>
   </div>
 
   <script>
-    // --- THREE.JS REAL 3D SPACE SCENE ---
+    // Register GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- THREE.JS HIGH-END 3D COSMIC ENGINE ---
+    const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), antialias: true });
+    
+    // Deep Space Fog for Cinematic Depth
+    scene.fog = new THREE.FogExp2(0x020208, 0.02);
 
-    renderer.setPixelRatio(window.devicePixelRatio);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 12);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.position.set(0, 0, 15);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    container.appendChild(renderer.domElement);
 
-    // 1. 3D Glowing Planet
-    const planetGeometry = new THREE.SphereGeometry(3.5, 64, 64);
-    const planetMaterial = new THREE.MeshStandardMaterial({
+    // 1. Procedural Photorealistic Planet Shader
+    const planetGroup = new THREE.Group();
+    
+    // Core Planet Sphere
+    const planetGeo = new THREE.SphereGeometry(3, 64, 64);
+    const planetMat = new THREE.MeshStandardMaterial({
+      color: 0x0a192f,
+      roughness: 0.3,
+      metalness: 0.8,
+      wireframe: false
+    });
+    const planet = new THREE.Mesh(planetGeo, planetMat);
+    planetGroup.add(planet);
+
+    // Glowing Holographic Tech Mesh Overlay
+    const overlayGeo = new THREE.SphereGeometry(3.05, 32, 32);
+    const overlayMat = new THREE.MeshBasicMaterial({
       color: 0x00f0ff,
       wireframe: true,
-      roughness: 0.5,
-      metalness: 0.8
+      transparent: true,
+      opacity: 0.15
     });
-    const planet = new THREE.Mesh(planetGeometry, planetMaterial);
-    scene.add(planet);
+    const overlay = new THREE.Mesh(overlayGeo, overlayMat);
+    planetGroup.add(overlay);
 
-    // 2. 3D Galaxy Ring / Asteroid Belt
-    const ringGeometry = new THREE.RingGeometry(5, 7.5, 64);
-    const ringMaterial = new THREE.MeshBasicMaterial({ color: 0x9d4edd, side: THREE.DoubleSide, wireframe: true });
-    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-    ring.rotation.x = Math.PI / 2;
-    scene.add(ring);
+    // Dynamic Rings
+    const ringGeo = new THREE.RingGeometry(4.2, 5.8, 64);
+    const ringMat = new THREE.MeshStandardMaterial({
+      color: 0x7000ff,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.5,
+      roughness: 0.2
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI / 2.3;
+    planetGroup.add(ring);
 
-    // 3. 3D Stars Field
-    const starsGeometry = new THREE.BufferGeometry();
-    const starsCount = 2000;
+    planetGroup.position.set(3, -1, 0);
+    scene.add(planetGroup);
+
+    // 2. Volumetric Particle Starfield
+    const starsCount = 2500;
     const starPositions = new Float32Array(starsCount * 3);
+    const starColors = new Float32Array(starsCount * 3);
 
-    for(let i = 0; i < starsCount * 3; i++) {
-      starPositions[i] = (Math.random() - 0.5) * 100;
+    for (let i = 0; i < starsCount * 3; i += 3) {
+      starPositions[i] = (Math.random() - 0.5) * 120;
+      starPositions[i + 1] = (Math.random() - 0.5) * 120;
+      starPositions[i + 2] = (Math.random() - 0.5) * 120;
+
+      // Cyan & Purple Tinting
+      const isCyan = Math.random() > 0.5;
+      starColors[i] = isCyan ? 0 : 0.44;
+      starColors[i + 1] = isCyan ? 0.94 : 0;
+      starColors[i + 2] = 1;
     }
-    starsGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-    const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15 });
-    const starField = new THREE.Points(starsGeometry, starsMaterial);
+
+    const starGeo = new THREE.BufferGeometry();
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+    starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+
+    const starMat = new THREE.PointsMaterial({
+      size: 0.12,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.8
+    });
+
+    const starField = new THREE.Points(starGeo, starMat);
     scene.add(starField);
 
-    // Lighting
-    const pointLight = new THREE.PointLight(0x00f0ff, 2, 100);
-    pointLight.position.set(10, 10, 10);
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-    scene.add(pointLight, ambientLight);
+    // 3. Lighting Setup
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambientLight);
 
-    // Mouse Interaction
-    let mouseX = 0;
-    let mouseY = 0;
-    window.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    const cyanLight = new THREE.PointLight(0x00f0ff, 3, 50);
+    cyanLight.position.set(10, 10, 10);
+    scene.add(cyanLight);
+
+    const purpleLight = new THREE.PointLight(0x7000ff, 4, 50);
+    purpleLight.position.set(-10, -10, -5);
+    scene.add(purpleLight);
+
+    // --- GSAP CINEMATIC SCROLL ANIMATIONS ---
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.5
+      }
     });
 
-    // Camera movement on scroll
-    function moveCameraOnScroll() {
-      const top = document.body.getBoundingClientRect().top;
-      camera.position.z = 15 + top * -0.015;
-      camera.position.y = top * 0.005;
-      planet.rotation.x = top * -0.002;
-      planet.rotation.y = top * -0.003;
-    }
-    document.body.onscroll = moveCameraOnScroll;
+    // Camera Flight Path through deep space as user scrolls
+    tl.to(camera.position, { z: 6, y: -2, x: -1 })
+      .to(planetGroup.position, { x: -3.5, y: 0, z: 2 }, 0)
+      .to(planetGroup.rotation, { x: 0.8, y: 2.5 }, 0)
+      .to(camera.position, { z: 10, y: 0, x: 0 })
+      .to(planetGroup.position, { x: 0, y: -1, z: 0 }, ">");
 
-    // Animation Loop
+    // Fade in Glass Cards smoothly
+    gsap.utils.toArray('.glass-card').forEach((card) => {
+      gsap.from(card, {
+        opacity: 0,
+        y: 60,
+        duration: 1,
+        scrollTrigger: {
+          trigger: card,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+
+    // --- Interactive Mouse Movement ---
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+    });
+
+    // Render Loop
+    const clock = new THREE.Clock();
     function animate() {
       requestAnimationFrame(animate);
+      const elapsedTime = clock.getElapsedTime();
 
-      // Rotation speeds
-      planet.rotation.y += 0.003;
-      ring.rotation.z -= 0.002;
+      // Smooth idle rotations
+      planet.rotation.y = elapsedTime * 0.1;
+      overlay.rotation.y = -elapsedTime * 0.12;
+      ring.rotation.z = elapsedTime * 0.05;
+      starField.rotation.y = elapsedTime * 0.02;
 
-      // Mouse interactive tilt
-      planet.rotation.x += (mouseY * 0.5 - planet.rotation.x) * 0.05;
-      planet.rotation.y += (mouseX * 0.5 - planet.rotation.y) * 0.05;
+      // Mouse parallax easing
+      camera.position.x += (mouseX - camera.position.x) * 0.05;
+      camera.position.y += (-mouseY - camera.position.y) * 0.05;
 
       renderer.render(scene, camera);
     }
     animate();
 
-    // Window Resize Handler
+    // Window Resize Response
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
-
-    // Scroll Observer for Cards
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.card').forEach(card => observer.observe(card));
   </script>
 </body>
 </html>
