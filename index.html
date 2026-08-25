@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohammed Abzan | Portfolio</title>
+  <style>
+    :root {
+      --bg-color: #05050f;
+      --card-bg: rgba(20, 20, 40, 0.6);
+      --accent-purple: #9d4edd;
+      --accent-blue: #00f0ff;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    #starfield {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 1rem;
+      position: relative;
+    }
+
+    .avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-blue);
+      box-shadow: 0 0 20px var(--accent-blue);
+      margin-bottom: 1.5rem;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      background: linear-gradient(45deg, #fff, var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--accent-purple);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .contact-info a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease-out;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 25px rgba(157, 78, 221, 0.3);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: var(--accent-blue);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .job-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .job-meta {
+      font-size: 0.9rem;
+      color: var(--accent-purple);
+      margin-bottom: 0.8rem;
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .tag {
+      background: rgba(157, 78, 221, 0.2);
+      border: 1px solid var(--accent-purple);
+      color: #fff;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="starfield"></canvas>
+
+  <div class="container">
+    <header>
+      <h1>MOHAMMED ABZAN</h1>
+      <p class="subtitle">Administration & Customer Service Professional | Cargo Operations | Sustainability</p>
+      <div class="contact-info">
+        <span>📍 Dubai, UAE</span>
+        <span>📧 mohdabzan2003@gmail.com</span>
+        <span>📞 +971 56 575 4523</span>
+        <span>🚗 UAE Driving Licence</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>Professional Summary</h2>
+      <p style="color: var(--text-muted);">
+        Administration and customer service professional with over two years of experience at dnata (Emirates Group), Dubai International Airport. Specialized in cargo operations, document control, sustainability coordination, and customer support. Experienced in maintaining compliance-grade records and cross-departmental operations in fast-paced environments.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Work Experience</h2>
+      <div style="margin-bottom: 1.5rem;">
+        <div class="job-title">Administrative Assistant</div>
+        <div class="job-meta">dnata (Emirates Group) — Dubai International Airport | 2025 – Present</div>
+        <ul>
+          <li>Manage document archiving for cargo and operational records, keeping filing systems audit-ready.</li>
+          <li>Support environmental and sustainability initiatives including record-keeping for compliance reporting.</li>
+          <li>Handle customer service enquiries from airlines, freight forwarders, and internal teams.</li>
+          <li>Provide daily administrative support, scheduling, and operational coordination.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="job-title">Cargo & Customer Service Agent</div>
+        <div class="job-meta">dnata (Emirates Group) — Dubai International Airport | 2024 – 2025</div>
+        <ul>
+          <li>Managed import and export cargo enquiries end-to-end for international airlines and clients.</li>
+          <li>Maintained compliance records for AWB, Dangerous Goods, Pharma, and AVI/HUM shipments following IATA & GCAA standards.</li>
+          <li>Prepared billing reports, invoices, and inventory trackers.</li>
+          <li>Guided clients on the Calogi platform and handled ULD build-up/breakdown operations safely.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Skills & Software</h2>
+      <div class="tags">
+        <span class="tag">Cargo Operations</span>
+        <span class="tag">Document Archiving & Control</span>
+        <span class="tag">Customer Service</span>
+        <span class="tag">Sustainability Coordination</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">AI Prompt Engineering</span>
+        <span class="tag">Microsoft 365</span>
+        <span class="tag">One Cargo</span>
+        <span class="tag">Calogi</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Certifications & Education</h2>
+      <ul>
+        <li><strong>One Million Prompters AI Prompt Engineering</strong> – Dubai Future Foundation / DCAI</li>
+        <li><strong>Emirates Aviation Dangerous Goods Handling</strong> – dnata (Emirates Group)</li>
+        <li><strong>Cargo Product Knowledge & Documentation</strong> – dnata (Emirates Group)</li>
+        <li><strong>Fundamentals of Cargo Operations (Export)</strong> – dnata (Emirates Group)</li>
+        <li><strong>Bachelor of Commerce (B.Com) in Business Management</strong> – Mangalore University (2021–2024)</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // --- Canvas Space Warp Effect ---
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+
+    let stars = [];
+    const numStars = 400;
+    let speedMultiplier = 1;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < numStars; i++) {
+      stars.push({
+        x: (Math.random() - 0.5) * canvas.width * 2,
+        y: (Math.random() - 0.5) * canvas.height * 2,
+        z: Math.random() * canvas.width,
+        o: Math.random()
+      });
+    }
+
+    function animateStars() {
+      ctx.fillStyle = '#05050f';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+
+      for (let i = 0; i < numStars; i++) {
+        let star = stars[i];
+        star.z -= 1.5 * speedMultiplier;
+
+        if (star.z <= 0) {
+          star.z = canvas.width;
+          star.x = (Math.random() - 0.5) * canvas.width * 2;
+          star.y = (Math.random() - 0.5) * canvas.height * 2;
+        }
+
+        let x = (star.x / star.z) * canvas.width + cx;
+        let y = (star.y / star.z) * canvas.height + cy;
+        let radius = Math.max(0.1, (1 - star.z / canvas.width) * 2.5);
+
+        if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0, 240, 255, ${1 - star.z / canvas.width})`;
+          ctx.fill();
+        }
+      }
+      speedMultiplier = Math.max(1, speedMultiplier * 0.95);
+      requestAnimationFrame(animateStars);
+    }
+    animateStars();
+
+    // Scroll Warp Acceleration
+    window.addEventListener('scroll', () => {
+      speedMultiplier = 4;
+    });
+
+    // --- Scroll Fade-In Observer ---
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card').forEach(card => observer.observe(card));
+  </script>
+</body>
+</html>
